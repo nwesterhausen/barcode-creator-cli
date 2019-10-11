@@ -24,7 +24,7 @@ const FORMAT_OPTIONS = [
   'QRCODE'
 ];
 
-const OUTPUT_OPTIONS = ['png', 'jpeg', 'svg'];
+const OUTPUT_OPTIONS = ['png', 'svg'];
 
 const args = require('minimist')(process.argv.slice(2), {
   alias: {
@@ -35,7 +35,8 @@ const args = require('minimist')(process.argv.slice(2), {
     y: ['height', 'barheight'],
     h: 'help',
     v: ['verbose', 'debug'],
-    T: ['notext', 'hideValue']
+    T: ['notext', 'hideValue'],
+    s: ['fontSize, size']
   },
   boolean: ['help', 'verbose'],
   default: {
@@ -45,7 +46,8 @@ const args = require('minimist')(process.argv.slice(2), {
     verbose: false,
     width: 2,
     height: 100,
-    hideValue: false
+    hideValue: false,
+    size: 24
   }
 });
 // Debug logging
@@ -55,14 +57,14 @@ if (args.debug) console.info(`Output file specified: ${args.outputfile}`);
 let fileext = args.outputfile
   .substring(args.outputfile.length - 4)
   .replace(/\./, '');
+if (fileext === 'jpg') fileext = 'jpeg';
 
 if (args.debug) console.info(`Discovered extension ${fileext}`);
 
 if (
   args.help ||
   FORMAT_OPTIONS.indexOf(args.format) == -1 ||
-  OUTPUT_OPTIONS.indexOf(fileext) == -1 ||
-  (args.format === 'QRCODE' && fileext !== 'png')
+  OUTPUT_OPTIONS.indexOf(fileext) == -1
 ) {
   if (FORMAT_OPTIONS.indexOf(args.format) == -1) {
     console.error(`Specified invalide option for format: ${args.format}\n`);
@@ -71,9 +73,6 @@ if (
     console.error(
       `Specified invalid extension (${fileext}) on output file: ${args.outputfile}\n`
     );
-  }
-  if (args.format === 'QRCODE' && fileext !== 'png') {
-    console.error(`QRCODE can only be saved into a PNG file.`);
   }
   console.log(`Use like this:
 ${process.argv[1]} [-f FORMAT -o OUTPUT] barcodetext
@@ -90,6 +89,9 @@ Options:
   -t, --text=         Specify what text is at the bottom of the barcode.
                       Only valid for 1D barcodes.
                         [Default: text is the same as the barcode]
+
+  -s, --fontSize=,    Specify the fontSize for the text under the barcode.
+    --size=           Only valid for 1D barcodes.
 
   -T, --notext        Do not display anything at the bottom of the barcode.
                       Only valid for 1D barcodes.
@@ -141,10 +143,11 @@ function getCanvas() {
 }
 
 function createQRCode() {
-  QRCode.toDataURL(content, function(err, url) {
+  const opts = {
+    type: fileext
+  };
+  QRCode.toFile(args.outputfile, content, opts, err => {
     if (err) throw err;
-    let base64data = url.replace(/^data:image\/png;base64,/, '');
-    require('fs').writeFileSync(args.outputfile, base64data, 'base64');
   });
 }
 
@@ -167,7 +170,7 @@ function createPngJpegBarcode() {
     width: args.width,
     height: args.height,
     font: 'Ubuntu Mono',
-    fontSize: 48
+    fontSize: 36
   };
 
   JsBarcode(canvas, content, options);
