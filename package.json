@@ -14,5 +14,7 @@
     "qrcode": "^1.4.2",
     "xmldom": "^0.1.27"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "pkg": "^4.4.0"
+  }
 }
