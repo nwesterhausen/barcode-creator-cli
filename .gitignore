@@ -1,5 +1,6 @@
 # Ignore the Build Stuff..
 dist/
+tmp/
 
 # Logs
 logs
