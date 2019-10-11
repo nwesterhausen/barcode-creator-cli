@@ -4,7 +4,7 @@ Create 2D Barcodes with CLI
 
 Grab the release from the releases page and extract.
 
-```powershell
+```
 PS C:\Users\nwesterhausen> .\barcode-creator.exe -h
 Use like this:
 C:\Users\nwesterhausen\barcode-creator.exe [-f FORMAT -o OUTPUT] barcodetext
