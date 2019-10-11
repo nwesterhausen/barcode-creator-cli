@@ -13,5 +13,6 @@
     "minimist": "^1.2.0",
     "qrcode": "^1.4.2",
     "xmldom": "^0.1.27"
-  }
+  },
+  "devDependencies": {}
 }

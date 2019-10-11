@@ -136,7 +136,7 @@ function getCanvas() {
   // Canvas v2
   const { createCanvas, registerFont } = require('canvas');
   // Canvas v2
-  registerFont('UbuntuMono-Regular.ttf', { family: 'Ubuntu Mono' });
+  registerFont('fonts/UbuntuMono-Regular.ttf', { family: 'Ubuntu Mono' });
   return createCanvas();
 }
 
