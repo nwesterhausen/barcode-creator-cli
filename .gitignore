@@ -1,3 +1,6 @@
+# Ignore the Build Stuff..
+dist/
+
 # Logs
 logs
 *.log
