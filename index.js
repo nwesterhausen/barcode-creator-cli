@@ -194,7 +194,7 @@ function createSvgBarcode() {
   );
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-  JsBarcode(svgNode, 'test', {
+  JsBarcode(svgNode, content, {
     xmlDocument: document
   });
 
