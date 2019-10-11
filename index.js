@@ -47,7 +47,7 @@ const args = require('minimist')(process.argv.slice(2), {
     width: 2,
     height: 100,
     hideValue: false,
-    size: 24
+    fontSize: 24
   }
 });
 // Debug logging
@@ -170,7 +170,7 @@ function createPngJpegBarcode() {
     width: args.width,
     height: args.height,
     font: 'Ubuntu Mono',
-    fontSize: 36
+    fontSize: args.fontSize
   };
 
   JsBarcode(canvas, content, options);
@@ -195,7 +195,11 @@ function createSvgBarcode() {
   const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
   JsBarcode(svgNode, content, {
-    xmlDocument: document
+    text: args.text,
+    displayValue: !args.hideValue,
+    xmlDocument: document,
+    font: 'Ubuntu Mono',
+    fontSize: args.fontSize
   });
 
   const svgText = xmlSerializer.serializeToString(svgNode);
